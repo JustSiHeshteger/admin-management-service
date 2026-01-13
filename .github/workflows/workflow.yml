@@ -50,6 +50,7 @@ jobs:
     name: Deploy App
     runs-on: ubuntu-latest
     needs: [build, test, integrationTest, sonar]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
         uses: JustSiHeshteger/pipeline-action/deploy@08520c1f416e9d189211e7e99fc6a5750552acf5

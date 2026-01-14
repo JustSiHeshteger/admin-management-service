@@ -17,13 +17,8 @@ jobs:
     name: Build App
     runs-on: ubuntu-latest
     steps:
-      - name: Build Parameters
-        uses: JustSiHeshteger/pipeline-action/echo-app-parameters@8c85628b4046ef954c525c4e3d0ded22705db42b
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/build@1c8c147ef783fef2ff788b6abda521e85a3f21be
 
   test:
     name: Test App
@@ -31,7 +26,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/test@1c8c147ef783fef2ff788b6abda521e85a3f21be
 
   integrationTest:
     name: Integration Test App
@@ -39,7 +34,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/integration-test@1c8c147ef783fef2ff788b6abda521e85a3f21be
 
   sonar:
     name: SonarCloud Analyze
@@ -47,7 +42,7 @@ jobs:
     needs: [test, integrationTest]
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/sonar@1c8c147ef783fef2ff788b6abda521e85a3f21be
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -58,7 +53,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/docker-build@1c8c147ef783fef2ff788b6abda521e85a3f21be
 
   deploy:
     name: Deploy App
@@ -67,4 +62,4 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@8c85628b4046ef954c525c4e3d0ded22705db42b
+        uses: JustSiHeshteger/pipeline-action/deploy@1c8c147ef783fef2ff788b6abda521e85a3f21be

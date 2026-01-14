@@ -7,42 +7,51 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+.env_defaults: &env_defaults
+  JAVA_VERSION: '21'
+  JAVA_DISTRIBUTOR: 'temurin'
+  WORKING_DIRECTORY: '.'
+
 jobs:
   build:
     name: Build App
     runs-on: ubuntu-latest
+    env: *env_defaults
     steps:
       - name: Build Parameters
-        uses: JustSiHeshteger/pipeline-action/echo-app-parameters@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/echo-app-parameters@8c85628b4046ef954c525c4e3d0ded22705db42b
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/build@8c85628b4046ef954c525c4e3d0ded22705db42b
 
   test:
     name: Test App
     runs-on: ubuntu-latest
     needs: [build]
+    env: *env_defaults
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/test@8c85628b4046ef954c525c4e3d0ded22705db42b
 
   integrationTest:
     name: Integration Test App
     runs-on: ubuntu-latest
     needs: [build]
+    env: *env_defaults
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/integration-test@8c85628b4046ef954c525c4e3d0ded22705db42b
 
   sonar:
     name: SonarCloud Analyze
     runs-on: ubuntu-latest
     needs: [test, integrationTest]
+    env: *env_defaults
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/sonar@8c85628b4046ef954c525c4e3d0ded22705db42b
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -50,16 +59,18 @@ jobs:
     name: Docker Build App
     runs-on: ubuntu-latest
     needs: [sonar]
+    env: *env_defaults
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/docker-build@8c85628b4046ef954c525c4e3d0ded22705db42b
 
   deploy:
     name: Deploy App
     runs-on: ubuntu-latest
     needs: [dockerBuild]
+    env: *env_defaults
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@2c4a13d2d1b713d98121209e31e167f1d8539170
+        uses: JustSiHeshteger/pipeline-action/deploy@8c85628b4046ef954c525c4e3d0ded22705db42b

@@ -92,7 +92,7 @@ tasks.named('check') {
     dependsOn(tasks.named('integrationTest'))
 }
 
-tasks.named('printAppName') {
+tasks.register('printAppName') {
     doLast {
         println(tasks.bootJar.archiveBaseName.get())
     }

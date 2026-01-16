@@ -14,8 +14,12 @@ sonar {
 
 
 group = 'org.zvrg'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 description = 'admin-management-service'
+
+bootJar {
+    archiveBaseName = 'admin-management-service'
+}
 
 java {
     toolchain {
@@ -86,4 +90,10 @@ tasks.register('integrationTest', Test) {
 
 tasks.named('check') {
     dependsOn(tasks.named('integrationTest'))
+}
+
+tasks.named('printAppName') {
+    doLast {
+        println(tasks.bootJar.archiveBaseName.get())
+    }
 }

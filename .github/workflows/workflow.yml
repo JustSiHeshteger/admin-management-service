@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/build@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -39,7 +39,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/test@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -50,7 +50,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/integration-test@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -62,7 +62,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Publish Artifact
-        uses: JustSiHeshteger/pipeline-action/publish-artifact@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/publish-artifact@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
@@ -73,7 +73,7 @@ jobs:
     needs: [test, integration-test]
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/sonar@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -87,7 +87,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/docker-build@7b63775b30c45b5724832248d7b57d5063e2ed81
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -103,4 +103,4 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@5f37391fff2415407f82875d1c543d246b9d9113
+        uses: JustSiHeshteger/pipeline-action/deploy@7b63775b30c45b5724832248d7b57d5063e2ed81

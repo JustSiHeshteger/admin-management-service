@@ -65,7 +65,7 @@ jobs:
 
       - name: List build/libs
         shell: bash
-        run: ls -la ${{ inputs.working-directory }}/build/libs
+        run: ls -la $GITHUB_WORKSPACE/${{ inputs.working-directory }}/build/libs
 
       - name: Publish Artifact
         uses: JustSiHeshteger/pipeline-action/publish-artifact@4f86c1e75462333cd1e5f81742642fa498b9e93b

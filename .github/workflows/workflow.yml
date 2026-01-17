@@ -20,10 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/build@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
+          artifact-name: ${{ env.ARTIFACT_NAME }}
 
       - name: Resolve IMAGE_NAME from Gradle
         id: app
@@ -38,7 +39,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/test@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -49,7 +50,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/integration-test@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -60,15 +61,8 @@ jobs:
     needs: [ build ]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: List build/libs
-        shell: bash
-        run: ls -la $GITHUB_WORKSPACE/${{ inputs.working-directory }}/build/libs
-
       - name: Publish Artifact
-        uses: JustSiHeshteger/pipeline-action/publish-artifact@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/publish-artifact@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
@@ -79,7 +73,7 @@ jobs:
     needs: [test, integration-test]
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/sonar@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -93,7 +87,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/docker-build@5f37391fff2415407f82875d1c543d246b9d9113
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -109,4 +103,4 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@4f86c1e75462333cd1e5f81742642fa498b9e93b
+        uses: JustSiHeshteger/pipeline-action/deploy@5f37391fff2415407f82875d1c543d246b9d9113

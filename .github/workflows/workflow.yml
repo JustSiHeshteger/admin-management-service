@@ -60,6 +60,9 @@ jobs:
     needs: [ build ]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: List build/libs
         shell: bash
         run: ls -la ${{ inputs.working-directory }}/build/libs

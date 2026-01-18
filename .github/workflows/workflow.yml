@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/build@v2.14.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -39,7 +39,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/test@v2.14.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -50,7 +50,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/integration-test@v2.14.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -62,7 +62,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Publish Artifact
-        uses: JustSiHeshteger/pipeline-action/publish-artifact@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/publish-artifact@v2.14.6
         with:
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
@@ -73,7 +73,7 @@ jobs:
     needs: [test, integration-test]
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/sonar@v2.14.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -87,7 +87,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/docker-build@v2.14.6
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -103,4 +103,4 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@v2.14.3
+        uses: JustSiHeshteger/pipeline-action/deploy@v2.14.6

@@ -12,13 +12,17 @@ sonar {
     }
 }
 
-
 group = 'org.zvrg'
-version = '0.0.1'
+version = "${MAJOR}.${MINOR}.${PATCH}"
 description = 'admin-management-service'
+
+jar {
+    enabled = false
+}
 
 bootJar {
     archiveBaseName = 'admin-management-service'
+    enabled = true
 }
 
 java {

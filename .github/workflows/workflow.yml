@@ -30,8 +30,8 @@ jobs:
         id: app
         run: |
           IMAGE_NAME=$(./gradlew -q printAppName)
-          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-          echo "image-name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+          echo "IMAGE_NAME=${{ IMAGE_NAME }}" >> $GITHUB_ENV
+          echo "image-name=${{ IMAGE_NAME }}" >> $GITHUB_OUTPUT
 
   test:
     name: Test App

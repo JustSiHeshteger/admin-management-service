@@ -11,7 +11,7 @@ env:
   JAVA_VERSION: '21'
   JAVA_DISTRIBUTOR: 'zulu'
   WORKING_DIRECTORY: '.'
-  ARTIFACT_NAME: 'my_app'
+  ARTIFACT_NAME: 'artifact'
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
     name: Build App
     runs-on: ubuntu-latest
     outputs:
-      image-name: ${{ steps.app.outputs.image-name }}
+      jar-name: ${{ steps.app.outputs.jar-name }}
     steps:
       - name: Run Build
         uses: JustSiHeshteger/pipeline-action/build@v2.14.8
@@ -28,11 +28,11 @@ jobs:
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
           artifact-name: ${{ env.ARTIFACT_NAME }}
 
-      - name: Resolve IMAGE_NAME from Gradle
+      - name: Resolve JAR_NAME from Gradle
         id: app
         run: |
-          IMAGE_NAME=$(./gradlew -q printAppName)
-          echo "image-name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+          JAR_NAME=$(./gradlew -q printAppName)
+          echo "jar-name=JAR_NAME" >> $GITHUB_OUTPUT
 
   test:
     name: Test App
@@ -65,7 +65,7 @@ jobs:
       - name: Publish Artifact
         uses: JustSiHeshteger/pipeline-action/publish-artifact@v2.14.8
         with:
-          application-name: ${{ needs.build.outputs.image-name }}
+          application-name: ${{ needs.build.outputs.jar-name }}
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
 

@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build App
     runs-on: ubuntu-latest
+    outputs:
+      image-name: ${{ steps.app.outputs.image-name }}
     steps:
       - name: Run Build
         uses: JustSiHeshteger/pipeline-action/build@v2.14.8
@@ -30,8 +32,7 @@ jobs:
         id: app
         run: |
           IMAGE_NAME=$(./gradlew -q printAppName)
-          echo "IMAGE_NAME=${{ IMAGE_NAME }}" >> $GITHUB_ENV
-          echo "image-name=${{ IMAGE_NAME }}" >> $GITHUB_OUTPUT
+          echo "image-name=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
   test:
     name: Test App
@@ -64,6 +65,7 @@ jobs:
       - name: Publish Artifact
         uses: JustSiHeshteger/pipeline-action/publish-artifact@v2.14.8
         with:
+          application-name: ${{ needs.build.outputs.image-name }}
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
 

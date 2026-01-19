@@ -12,14 +12,16 @@ env:
   JAVA_DISTRIBUTOR: 'zulu'
   WORKING_DIRECTORY: '.'
   ARTIFACT_NAME: 'artifact'
-  IMAGE_TAG: 'latest'
 
 jobs:
   build:
     name: Build App
     runs-on: ubuntu-latest
     outputs:
+      app-name: ${{ steps.app.outputs.app-name }}
+      app-version: ${{ steps.app.outputs.app-version }}
       jar-name: ${{ steps.app.outputs.jar-name }}
+
     steps:
       - name: Run Build
         uses: JustSiHeshteger/pipeline-action/build@v2.14.11
@@ -31,7 +33,11 @@ jobs:
       - name: Resolve JAR_NAME from Gradle
         id: app
         run: |
-          JAR_NAME=$(./gradlew -q printAppName)
+          APP_NAME=$(./gradlew -q printAppName)
+          APP_VERSION=$(./gradlew -q printAppVersion)
+          JAR_NAME=$(./gradlew -q printJarName)
+          echo "app-name=APP_NAME" >> $GITHUB_OUTPUT
+          echo "app-version=APP_VERSION" >> $GITHUB_OUTPUT
           echo "jar-name=JAR_NAME" >> $GITHUB_OUTPUT
 
   test:
@@ -93,8 +99,8 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
-          image-name: ${{ env.IMAGE_NAME }}
-          image-tag: ${{ env.IMAGE_TAG }}
+          image-name: ${{ env.APP_NAME }}
+          image-tag: ${{ env.APP_TAG }}
           artifact-name: ${{ env.ARTIFACT_NAME }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
 

@@ -98,6 +98,18 @@ tasks.named('check') {
 
 tasks.register('printAppName') {
     doLast {
+        println("${tasks.bootJar.archiveBaseName.get()}")
+    }
+}
+
+tasks.register('printAppVersion') {
+    doLast {
+        println("${MAJOR}.${MINOR}.${PATCH}")
+    }
+}
+
+tasks.register('printJarName') {
+    doLast {
         println("${tasks.bootJar.archiveBaseName.get()}-${MAJOR}.${MINOR}.${PATCH}")
     }
 }

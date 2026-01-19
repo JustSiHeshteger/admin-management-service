@@ -36,9 +36,10 @@ jobs:
           APP_NAME=$(./gradlew -q printAppName)
           APP_VERSION=$(./gradlew -q printAppVersion)
           JAR_NAME=$(./gradlew -q printJarName)
-          echo "app-name=APP_NAME" >> $GITHUB_OUTPUT
-          echo "app-version=APP_VERSION" >> $GITHUB_OUTPUT
-          echo "jar-name=JAR_NAME" >> $GITHUB_OUTPUT
+      
+          echo "app-name=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "app-version=$APP_VERSION" >> $GITHUB_OUTPUT
+          echo "jar-name=$JAR_NAME" >> $GITHUB_OUTPUT
 
   test:
     name: Test App

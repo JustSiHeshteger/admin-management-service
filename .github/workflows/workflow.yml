@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Run Build
-        uses: JustSiHeshteger/pipeline-action/build@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/build@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -48,7 +48,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Test
-        uses: JustSiHeshteger/pipeline-action/test@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/test@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -59,7 +59,7 @@ jobs:
     needs: [build]
     steps:
       - name: Run Integration Test
-        uses: JustSiHeshteger/pipeline-action/integration-test@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/integration-test@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -71,7 +71,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Publish Artifact
-        uses: JustSiHeshteger/pipeline-action/publish-artifact@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/publish-artifact@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           application-name: ${{ needs.build.outputs.jar-name }}
           artifact-name: ${{ env.ARTIFACT_NAME }}
@@ -83,7 +83,7 @@ jobs:
     needs: [test, integration-test]
     steps:
       - name: Sonar Run
-        uses: JustSiHeshteger/pipeline-action/sonar@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/sonar@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           java-version: ${{ env.JAVA_VERSION }}
           java-distributor: ${{ env.JAVA_DISTRIBUTOR }}
@@ -97,7 +97,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Docker Build Run
-        uses: JustSiHeshteger/pipeline-action/docker-build@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/docker-build@004934fbb4e1594a23c15489efc695c17a1d701e
         with:
           base-image: ${{ env.DOCKER_BASE_IMAGE }}
           image-name: ${{ needs.build.outputs.app-name }}
@@ -112,4 +112,4 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy
-        uses: JustSiHeshteger/pipeline-action/deploy@v2.14.13
+        uses: JustSiHeshteger/pipeline-action/deploy@004934fbb4e1594a23c15489efc695c17a1d701e

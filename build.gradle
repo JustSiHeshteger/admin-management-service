@@ -74,10 +74,18 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.8'
     implementation 'org.liquibase:liquibase-core:5.0.1'
     implementation 'com.mattbertolini:liquibase-slf4j:5.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation "org.testcontainers:junit-jupiter"
-//    testImplementation "org.testcontainers:postgresql"
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-r2dbc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-r2dbc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+    testImplementation 'org.testcontainers:testcontainers-r2dbc'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
